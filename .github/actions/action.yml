@@ -1,5 +1,5 @@
 name: "Discord Notifications"
-description: "Cria uma notificação no Discord"
+description: "Create a notification on Discord"
 author: João Pedro
 branding:
   icon: message-square

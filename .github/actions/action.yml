@@ -1,0 +1,10 @@
+name: "Discord Notifications"
+description: "Cria uma notificação no Discord"
+author: João Pedro
+branding:
+  icon: message-square
+  color: blue  
+
+runs:
+  using: "node20"
+  main: "main.js"

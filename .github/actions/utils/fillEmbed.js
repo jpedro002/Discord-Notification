@@ -11,6 +11,7 @@ const {
 	MENSAGE_ON_PULL_REQUEST_OPENED,
 	MENSAGE_ON_PULL_REQUEST_MERGED,
 	MENSAGE_ON_ISSUE_OPENED,
+	MENSAGE_TO_IDENTIFY_MERGE,
 } = process.env;
 
 const fillDefaultEmbed = async () => {
@@ -44,26 +45,27 @@ const fillDefaultEmbed = async () => {
 			}
 			break;
 		case "issues":
-			embed.embeds[0].description =
+			embed.embeds[0].description = `Issue Content: ${context.payload.issue.body}`;
+			embed.embeds[0].footer.text =
 				MENSAGE_ON_ISSUE_OPENED || DEFAULT_MESSAGES.issue;
-			embed.embeds[0].footer.text = `Conteúdo da issue: ${context.payload.issue.body}`
 			break;
 		case "push":
 			const mensagemDoCommitMaisRecente =
 				context.payload.commits[context.payload.commits.length - 1].message;
-			const identifyMessage = "Merge pull request";
+			const identifyMessage = MENSAGE_TO_IDENTIFY_MERGE
+				? MENSAGE_TO_IDENTIFY_MERGE
+				: "Merge pull request";
 
 			if (
 				mensagemDoCommitMaisRecente
 					.toLowerCase()
 					.includes(identifyMessage.toLowerCase())
 			) {
-				
 				embed.embeds[0].description =
 					MENSAGE_ON_PULL_REQUEST_MERGED || DEFAULT_MESSAGES.pr_acepted;
 			} else {
 				embed.embeds[0].description = MENSAGE_ON_PUSH || DEFAULT_MESSAGES.push;
-				embed.embeds[0].footer.text = `O commit que disparou a mensagem: ${
+				embed.embeds[0].footer.text = `Commit Mensage : ${
 					context.payload.commits[context.payload.commits.length - 1].message
 				}`;
 			}

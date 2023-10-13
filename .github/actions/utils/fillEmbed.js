@@ -20,6 +20,7 @@ const fillDefaultEmbed = async () => {
 	const color = Math.floor(Math.random() * 16777215) + 1;
 
 	const embed = {
+		...DEFAULT_EMBED,
 		embeds: [
 			{
 				...DEFAULT_EMBED.embeds[0],

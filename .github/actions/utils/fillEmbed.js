@@ -29,7 +29,7 @@ const fillDefaultEmbed = async () => {
 					name: githubActor,
 					icon_url: avatarUrl,
 				},
-				title: "Repositório",
+				title: "Repository",
 				url: `https://github.com/${GITHUB_REPOSITORY}`,
 			},
 		],

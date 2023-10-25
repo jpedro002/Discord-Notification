@@ -11,7 +11,7 @@ const {
 	MENSAGE_ON_PULL_REQUEST_OPENED,
 	MENSAGE_ON_PULL_REQUEST_MERGED,
 	MENSAGE_ON_ISSUE_OPENED,
-	MENSAGE_TO_IDENTIFY_MERGE,
+	MENSAGE_ON_ISSUE_MENSAGE_CREATED
 } = process.env;
 
 const fillDefaultEmbed = async () => {
@@ -37,39 +37,52 @@ const fillDefaultEmbed = async () => {
 
 	switch (context.eventName) {
 		case "pull_request":
-			if (context.payload.action === "opened") {
-				embed.embeds[0].description =
-					MENSAGE_ON_PULL_REQUEST_OPENED || DEFAULT_MESSAGES.pr_opened;
-			} else {
-				console.error("Pull Request event not supported");
-				process.exit(1);
-			}
-			break;
-		case "issues":
-			embed.embeds[0].description = `Issue Content: ${context.payload.issue.body}`;
-			embed.embeds[0].footer.text =
-				MENSAGE_ON_ISSUE_OPENED || DEFAULT_MESSAGES.issue;
-			break;
-		case "push":
-			const mensagemDoCommitMaisRecente =
-				context.payload.commits[context.payload.commits.length - 1].message;
-			const identifyMessage = MENSAGE_TO_IDENTIFY_MERGE
-				? MENSAGE_TO_IDENTIFY_MERGE
-				: "Merge pull request";
-
-			if (
-				mensagemDoCommitMaisRecente
-					.toLowerCase()
-					.includes(identifyMessage.toLowerCase())
-			) {
+			if (context.payload.pull_request && context.payload.pull_request.merged) {
 				embed.embeds[0].description =
 					MENSAGE_ON_PULL_REQUEST_MERGED || DEFAULT_MESSAGES.pr_acepted;
-			} else {
-				embed.embeds[0].description = MENSAGE_ON_PUSH || DEFAULT_MESSAGES.push;
-				embed.embeds[0].footer.text = `Commit Mensage : ${
-					context.payload.commits[context.payload.commits.length - 1].message
-				}`;
+			} else if (context.payload.action === "opened") {
+				embed.embeds[0].description =
+					MENSAGE_ON_PULL_REQUEST_OPENED || DEFAULT_MESSAGES.pr_opened;
+			}else{
+				console.log("Event not supported");
+				exit(1);
 			}
+			break;
+
+		case "issues":
+
+			if (context.payload.action === "opened") {
+				embed.embeds[0].description =
+					MENSAGE_ON_ISSUE_OPENED || DEFAULT_MESSAGES.issue;
+				embed.embeds[0].footer.text = `issue content: ${context.payload.issue.body}`;
+			} else if (context.payload.action === "closed") {
+
+				embed.embeds[0].description = `The issue ${context.payload.issue.title} 
+				has been closed`;
+				embed.embeds[0].footer.text = `${context.payload.issue.body}`;
+			}else {
+				console.log("Event not supported");
+			}
+
+			break;
+
+		case "push":
+			embed.embeds[0].description = MENSAGE_ON_PUSH || DEFAULT_MESSAGES.push;
+			embed.embeds[0].footer.text = `O commit que disparou a mensagem: ${
+				context.payload.commits[context.payload.commits.length - 1].message
+			}`;
+
+			break;
+		case "issue_comment":
+			if (context.payload.action === "created") {
+				embed.embeds[0].description =
+					MENSAGE_ON_ISSUE_MENSAGE_CREATED || DEFAULT_MESSAGES.issue_comment;
+				embed.embeds[0].footer.text = `issue comment content: ${context.payload.comment.body}`;
+			} else {
+				console.log("Event not supported");
+				exit(1);
+			}
+
 			break;
 		default:
 			console.error("Event not supported");

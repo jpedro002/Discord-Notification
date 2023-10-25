@@ -25,6 +25,7 @@ const DEFAULT_MESSAGES = {
 	pr_opened: "acabou de abrir um pull request! Vamos lá, você consegue!",
 	push: "acabou de fazer um push! Vamos lá, você consegue!",
 	issue: "acabou de abrir uma issue!",
+	issue_comment: "acabou de comentar em uma issue!",
 };
 
 module.exports = {

@@ -1,10 +1,11 @@
 name: DIiscord Notification
 
 on:
-  push:
+ 
   pull_request:
   issues:
   issue_comment:
+  push:
 
 
 

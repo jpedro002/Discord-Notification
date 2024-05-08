@@ -11,7 +11,7 @@ const {
 	MENSAGE_ON_PULL_REQUEST_OPENED,
 	MENSAGE_ON_PULL_REQUEST_MERGED,
 	MENSAGE_ON_ISSUE_OPENED,
-	MENSAGE_ON_ISSUE_MENSAGE_CREATED
+	MENSAGE_ON_ISSUE_MENSAGE_CREATED,
 } = process.env;
 
 const fillDefaultEmbed = async () => {
@@ -43,24 +43,22 @@ const fillDefaultEmbed = async () => {
 			} else if (context.payload.action === "opened") {
 				embed.embeds[0].description =
 					MENSAGE_ON_PULL_REQUEST_OPENED || DEFAULT_MESSAGES.pr_opened;
-			}else{
+			} else {
 				console.log("Event not supported");
 				exit(1);
 			}
 			break;
 
 		case "issues":
-
 			if (context.payload.action === "opened") {
 				embed.embeds[0].description =
 					MENSAGE_ON_ISSUE_OPENED || DEFAULT_MESSAGES.issue;
 				embed.embeds[0].footer.text = `issue content: ${context.payload.issue.body}`;
 			} else if (context.payload.action === "closed") {
-
 				embed.embeds[0].description = `The issue ${context.payload.issue.title} 
 				has been closed`;
 				embed.embeds[0].footer.text = `${context.payload.issue.body}`;
-			}else {
+			} else {
 				console.log("Event not supported");
 			}
 

@@ -3,8 +3,8 @@ description: "Create a notification on Discord"
 author: João Pedro
 branding:
   icon: message-square
-  color: blue  
+  color: blue
 
 runs:
   using: "node20"
-  main: "./.github/actions/main.js"
+  main: "./discordNotification/dist/main.js"

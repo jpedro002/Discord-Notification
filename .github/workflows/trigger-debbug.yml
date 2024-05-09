@@ -20,8 +20,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-        cd discordNotification
-        pnpm install
+          cd discordNotification
+          pnpm install
 
       - name: Create Discord embed
         id: create_embed

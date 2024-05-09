@@ -1,6 +1,7 @@
 import * as github from "@actions/github";
 import * as core from "@actions/core";
 import axios from "axios";
+import { PushEvent } from "@octokit/webhooks-definitions/schema";
 
 import { DEFAULT_EMBED, DEFAULT_MESSAGES, DefaultEmbed } from "./defaultEmbed";
 
@@ -68,10 +69,16 @@ const fillDefaultEmbed = async () => {
       break;
 
     case "push":
+      const githubPayload = context.payload as PushEvent;
       const lastCommitIndex = context.payload.commits.length - 1;
-      const { name, username } = context.payload.head_commit.committer;
+      const headCommiterName = githubPayload.head_commit?.committer.name;
+      const headCommiterUserName =
+        githubPayload.head_commit?.committer.username;
 
-      if (name === "GitHub" && username === "web-flow") {
+      if (
+        headCommiterName === "GitHub" &&
+        headCommiterUserName === "web-flow"
+      ) {
         embed.embeds[0].description =
           MENSAGE_ON_PULL_REQUEST_MERGED || DEFAULT_MESSAGES.pr_acepted;
       } else {

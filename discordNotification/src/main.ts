@@ -107,7 +107,7 @@ const sendDiscordMessage = async (
     await axios.post(webhook, {
       content: JSON.stringify(context),
     });
-    await axios.post(webhook, data);
+    // await axios.post(webhook, data);
   }
 };
 

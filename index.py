@@ -2,7 +2,7 @@ import os
 import random
 
 while(True):
-    i =  input('digite *push* para fazer um push de tudo ou *mdpush* ou *parar*')
+    i =  input('digite *p* para fazer um push de tudo ou *mdpush* ou *parar*')
     
     if i == "parar": break
     elif i == "p": 

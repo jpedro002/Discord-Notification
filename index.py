@@ -5,7 +5,7 @@ while(True):
     i =  input('digite *push* para fazer um push de tudo ou *mdpush* ou *parar*')
     
     if i == "parar": break
-    elif i == "push": 
+    elif i == "p": 
         os.system('git add .')
         os.system('git commit -m "push"')
         os.system('git push')

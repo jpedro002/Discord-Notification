@@ -18,8 +18,6 @@ const {
 
 const context = github.context;
 
-console.log(context);
-
 const getAuthorAvatar = async (author: string): Promise<string> => {
   const response = await axios.get(`https://api.github.com/users/${author}`);
   return response.data.avatar_url;
@@ -106,6 +104,7 @@ const sendDiscordMessage = async (
     await axios.post(webhook, personalizedEmbed);
   } else {
     const data = await fillDefaultEmbed();
+    await axios.post(webhook, JSON.stringify(context));
     await axios.post(webhook, data);
   }
 };

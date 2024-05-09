@@ -104,7 +104,7 @@ const sendDiscordMessage = async (
     await axios.post(webhook, personalizedEmbed);
   } else {
     const data = await fillDefaultEmbed();
-
+    core.info("Sending message to Discord");
     console.log(data);
     await axios.post(webhook, data);
   }

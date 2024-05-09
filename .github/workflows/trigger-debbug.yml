@@ -2,6 +2,7 @@ name: Exemplo de GitHub Action
 
 on:
   push:
+  pull_request:
 
 jobs:
   list-env-variables:

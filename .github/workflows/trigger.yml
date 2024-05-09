@@ -1,24 +1,22 @@
-# name: DIiscord Notification
+name: DIiscord Notification
 
-# on:
+on:
+  pull_request:
+  issues:
+  issue_comment:
+  push:
 
-#   pull_request:
-#   issues:
-#   issue_comment:
-#   push:
+jobs:
+  action:
+    runs-on: ubuntu-latest
 
-# jobs:
-#   action:
-#     runs-on: ubuntu-latest
+    env:
+      debug-output:
 
-#     env:
-#       debug-output:
+    steps:
+      - uses: actions/checkout@v4
 
-#     steps:
-#       - uses: actions/checkout@v4
-
-#       - name: Create notification
-#         env:
-#           DISCORD_WEBHOOK: ${{ secrets.MY_DISCORD_WEBHOOK }}
-#         uses: ./
-
+      - name: Create notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.MY_DISCORD_WEBHOOK }}
+        uses: ./

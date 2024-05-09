@@ -10,7 +10,7 @@ while(True):
         os.system('git commit -m "push"')
         os.system('git push')
         break
-    elif i == "mdpush":
+    elif i == "mdp":
         with open('shablau.txt', 'w') as f:
             f.write(str(random.randint(1, 100)))
             os.system('git add shablau.txt')

@@ -19,7 +19,9 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: |
+        cd discordNotification
+        pnpm install
 
       - name: Create Discord embed
         id: create_embed

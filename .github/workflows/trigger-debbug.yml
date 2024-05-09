@@ -9,7 +9,7 @@ steps:
   - name: Setup Node.js
     uses: actions/setup-node@v2
     with:
-      node-version: '14'
+      node-version: "14"
 
   - name: HTTP Request
     run: |
@@ -29,19 +29,3 @@ steps:
     env:
       GITHUB_OBJECT: ${{ toJson(github) }}
     run: echo "O valor da env github é ${{ env.GITHUB_OBJECT }}"
-  pull_request:
-
-jobs:
-  list-env-variables:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2
-
-      - name: Mostrar o valor do commit
-        run: echo "shablau ${{ github }}"
-
-      - name: Criar enviroment github
-        env:
-          GITHUB_OBJECT: ${{ toJson(github) }}
-        run: echo "O valor da env github é ${{ env.GITHUB_OBJECT }}"

@@ -6,6 +6,7 @@ import { DEFAULT_EMBED, DEFAULT_MESSAGES, DefaultEmbed } from "./defaultEmbed";
 
 const {
   DISCORD_WEBHOOK,
+  DISCORD_PERSONALIZED_EMBED,
   GITHUB_REPOSITORY,
   GITHUB_ACTOR,
   MENSAGE_ON_PUSH,
@@ -17,7 +18,9 @@ const {
 
 const context = github.context;
 
-const getAuthorAvatar = async (author: string) => {
+console.log(context);
+
+const getAuthorAvatar = async (author: string): Promise<string> => {
   const response = await axios.get(`https://api.github.com/users/${author}`);
   return response.data.avatar_url;
 };
@@ -94,10 +97,13 @@ const fillDefaultEmbed = async () => {
 
 const sendDiscordMessage = async (
   webhook: string | undefined,
-  message: DefaultEmbed
+  personalizedEmbed: any
 ) => {
   if (!webhook) {
-    core.error("DISCORD_WEBHOOK is not defined");
+    return core.error("DISCORD_WEBHOOK is not defined");
+  } else if (personalizedEmbed) {
+    console.log(personalizedEmbed);
+    await axios.post(webhook, personalizedEmbed);
   } else {
     const data = await fillDefaultEmbed();
     await axios.post(webhook, data);
@@ -105,7 +111,7 @@ const sendDiscordMessage = async (
 };
 
 try {
-  sendDiscordMessage(DISCORD_WEBHOOK, DEFAULT_EMBED);
+  sendDiscordMessage(DISCORD_WEBHOOK, DISCORD_PERSONALIZED_EMBED);
 } catch (error) {
   if (error instanceof Error) {
     core.error(error);

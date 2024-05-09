@@ -18,10 +18,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: |
-          cd discordNotification
-          npm install
+      # - name: Install dependencies
+      #   run: |
+      #     cd discordNotification
+      #     npm install
 
       - name: Create Discord embed
         id: create_embed

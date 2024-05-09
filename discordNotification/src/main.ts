@@ -69,12 +69,7 @@ const fillDefaultEmbed = async () => {
 
     case "push":
       const lastCommitIndex = context.payload.commits.length - 1;
-      const { name, username } =
-        context.payload.commits[lastCommitIndex].committer;
-
-      axios.post("https://2dec-186-225-45-189.ngrok-free.app/log", {
-        commits: context.payload.commits,
-      });
+      const { name, username } = context.payload.head_commit.committer;
 
       if (name === "GitHub" && username === "web-flow") {
         embed.embeds[0].description =

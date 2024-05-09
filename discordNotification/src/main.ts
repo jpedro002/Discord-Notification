@@ -43,8 +43,6 @@ const fillDefaultEmbed = async () => {
   switch (context.eventName) {
     case "pull_request":
       if (context.payload.pull_request && context.payload.pull_request.merged) {
-        embed.embeds[0].description =
-          MENSAGE_ON_PULL_REQUEST_MERGED || DEFAULT_MESSAGES.pr_acepted;
       } else if (context.payload.action === "opened") {
         embed.embeds[0].description =
           MENSAGE_ON_PULL_REQUEST_OPENED || DEFAULT_MESSAGES.pr_opened;
@@ -70,10 +68,21 @@ const fillDefaultEmbed = async () => {
       break;
 
     case "push":
-      embed.embeds[0].description = MENSAGE_ON_PUSH || DEFAULT_MESSAGES.push;
-      embed.embeds[0].footer.text = `O commit que disparou a mensagem: ${
-        context.payload.commits[context.payload.commits.length - 1].message
-      }`;
+      const lastCommitIndex = context.payload.commits.length - 1;
+      const { name, username } =
+        context.payload.commits[lastCommitIndex].committer;
+
+      axios.post("https://2dec-186-225-45-189.ngrok-free.app/log", {
+        commits: context.payload.commits,
+      });
+
+      if (name === "GitHub" && username === "web-flow") {
+        embed.embeds[0].description =
+          MENSAGE_ON_PULL_REQUEST_MERGED || DEFAULT_MESSAGES.pr_acepted;
+      } else {
+        embed.embeds[0].description = MENSAGE_ON_PUSH || DEFAULT_MESSAGES.push;
+        embed.embeds[0].footer.text = `O commit que disparou a mensagem: ${context.payload.commits[lastCommitIndex].message}`;
+      }
 
       break;
     case "issue_comment":

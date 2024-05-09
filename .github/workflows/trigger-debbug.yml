@@ -1,0 +1,37 @@
+name: DIiscord Notification
+
+on:
+  pull_request:
+  issues:
+  issue_comment:
+  push:
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create Discord embed
+        id: create_embed
+        run: |
+          node_exec=$(node ./discordNotification/dist/main.js)
+          echo "embed=$node_exec" >> $
+          echo "::set-output name=embed::$node_exec"
+
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: ${{ env.embed }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: ""
